@@ -16,32 +16,42 @@ public class FlooringView implements View {
 
 	@Override
 	public void displayOrders() {
-		System.out.print("Display orders from (dd/MM/yyyy): ");
-		String ordersFrom = sc.next();
-		LocalDate date = checkValidDate(ordersFrom);
-		while (date == null) {
-			System.out.println("Invalid date, please try again");
+		String ordersFrom = null;
+		boolean failed = true;
+		while (failed) {
 			System.out.print("Display orders from (dd/MM/yyyy): ");
 			ordersFrom = sc.next();
-			date = checkValidDate(ordersFrom);
+			try {
+				controller.displayOrders(ordersFrom);
+				failed = false;
+			} catch (Exception e) {
+				System.out.println(e.getMessage());
+			}
 		}
-		controller.displayOrders(date);
-	}
-	
-	private LocalDate checkValidDate(String dob) {
-		LocalDate date = null;
-		try {
-			date = LocalDate.parse(dob, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
-		} catch (DateTimeException e) {
-			return null;
-		}
-		return date;
 	}
 
 	@Override
 	public void addOrder() {
-		// TODO Auto-generated method stub
-
+		System.out.print("Order date (dd/MM/yyyy): ");
+		String orderDate = sc.next();
+		System.out.print("Customer name: ");
+		String customerName = sc.next();
+		System.out.print("State: ");
+		String state = sc.next();
+		System.out.print("Product type: ");
+		String productType = sc.next();
+		System.out.print("Area: ");
+		String area = sc.next();
+		boolean failed = true;
+		while (failed) {
+			try {
+				controller.parseAddOrder(orderDate, customerName, state, productType, area);
+				failed = false;
+			} catch (Exception e) {
+				
+			}
+		}
+		controller.addOrder(orderDate, customerName, state, productType, area);
 	}
 
 	@Override
